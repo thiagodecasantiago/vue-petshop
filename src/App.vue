@@ -1,20 +1,21 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
+    <v-app-bar app color="purple darken-2" dark>
       <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+        <router-link to="/">
+          <v-img
+            alt="Vuetify Logo"
+            class="shrink mr-2"
+            contain
+            src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+            transition="scale-transition"
+            width="40"
+          />
+        </router-link>
       </div>
 
       <v-spacer></v-spacer>
 
-      <router-link to="/" class="white--text mx-3">Home</router-link>
       <router-link to="/ecommerce" class="white--text mx-3">Loja</router-link>
       <router-link to="/petshop" class="white--text mx-3">Petshop</router-link>
     </v-app-bar>
@@ -31,11 +32,7 @@
 import Vue from "vue";
 
 export default Vue.extend({
-  name: "App",
-
-  data: () => ({
-    //
-  })
+  name: "App"
 });
 </script>
 

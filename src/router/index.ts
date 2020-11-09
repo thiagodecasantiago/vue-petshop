@@ -11,14 +11,6 @@ const routes: Array<RouteConfig> = [
     component: Home
   },
   {
-    path: "/ecommerce",
-    name: "Ecommerce",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ "@/views/About.vue")
-  },
-  {
     path: "/petshop",
     name: "Petshop",
     // route level code-splitting
@@ -26,6 +18,27 @@ const routes: Array<RouteConfig> = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "petshop" */ "@/views/Petshop.vue")
+  },
+  {
+    path: "/ecommerce",
+    // route level code-splitting
+    // this generates a separate chunk (ecommerce.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "ecommerce" */ "@/views/Ecommerce.vue"),
+    children: [
+      {
+        path: "",
+        name: "ListaProdutos",
+        component: () => import("@/views/produtos/ListaProdutos.vue")
+      },
+      {
+        path: ":id",
+        name: "DetalheProduto",
+        component: () => import("@/views/produtos/DetalheProduto.vue"),
+        props: true
+      }
+    ]
   }
 ];
 

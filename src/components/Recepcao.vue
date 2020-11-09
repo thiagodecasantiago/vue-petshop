@@ -48,7 +48,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import axios from "axios";
+import DataService from "../services/DataService";
 import Cachorro from "../models/cachorro";
 
 export default Vue.extend({
@@ -83,11 +83,11 @@ export default Vue.extend({
   },
   methods: {
     async buscarRacas() {
-      const { data } = await axios.get("http://localhost:3000/racas");
+      const { data } = await DataService.getRacas();
       return data;
     },
     async buscarServicos() {
-      const { data } = await axios.get("http://localhost:3000/servicos");
+      const { data } = await DataService.getServicos();
       return data;
     },
     cadastrarCliente() {

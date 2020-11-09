@@ -31,7 +31,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import axios from "axios";
+import DataService from "../services/DataService";
 import Cachorro from "../models/cachorro";
 
 // Importando os componentes que serão utilizados nesta página - caso sejam utilizados com frequência, mover para main.js
@@ -56,7 +56,7 @@ export default Vue.extend({
     };
   },
   async created() {
-    const { data } = await axios.get("http://localhost:3000/clientes");
+    const { data } = await DataService.getClientes();
     if (!data) {
       return;
     }
