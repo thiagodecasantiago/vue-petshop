@@ -1,40 +1,44 @@
 <template>
   <div class="container">
-    <h1>Bem vindo ao Petshop</h1>
-    <hr />
-    <div class="linha">
-      <div class="coluna">
-        <recepcao @novo-cadastro="novoCliente"></recepcao>
-      </div>
-      <div class="coluna">
-        <div class="linha">
+    <v-row>
+      <v-col md="6" sm="12">
+        <v-card class="pa-4">
+          <recepcao @novo-cadastro="encaminharCliente"></recepcao>
+        </v-card>
+      </v-col>
+      <v-col md="6" sm="12">
+        <v-card class="pa-4 mb-4">
           <veterinario
             :clientes="clientesVeterinario"
-            @realizado="finalizarConsulta"
+            @atendido="finalizarConsulta"
           ></veterinario>
-        </div>
-        <div class="linha">
-          <banho :clientes="clientesBanho" @realizado="finalizarBanho"></banho>
-        </div>
-      </div>
-    </div>
-    <hr />
-    <div class="linha">
-      <balanco :clientes="clientesAtendidos"></balanco>
-    </div>
+        </v-card>
+        <v-card class="pa-4">
+          <banho :clientes="clientesBanho" @atendido="finalizarBanho"></banho>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-spacer></v-spacer>
+    <v-row>
+      <v-col sm="12">
+        <v-card class="pa-4">
+          <balanco :clientes="clientesAtendidos"></balanco>
+        </v-card>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import axios from "axios";
-import Cachorro from "@/models/cachorro";
+import Cachorro from "../models/cachorro";
 
 // Importando os componentes que serão utilizados nesta página - caso sejam utilizados com frequência, mover para main.js
-import Recepcao from "@/components/Recepcao";
-import Banho from "@/components/Banho";
-import Veterinario from "@/components/Veterinario";
-import Balanco from "@/components/Balanco";
+import Recepcao from "@/components/Recepcao.vue";
+import Banho from "@/components/Banho.vue";
+import Veterinario from "@/components/Veterinario.vue";
+import Balanco from "@/components/Balanco.vue";
 
 export default Vue.extend({
   name: "Home",
@@ -65,7 +69,7 @@ export default Vue.extend({
     );
   },
   methods: {
-    novoCliente(cliente: Cachorro) {
+    encaminharCliente(cliente: Cachorro) {
       cliente.servico.tipo === "banho"
         ? this.clientesBanho.push(cliente)
         : this.clientesVeterinario.push(cliente);
@@ -95,10 +99,3 @@ export default Vue.extend({
   }
 });
 </script>
-
-<style lang="scss" scoped>
-.container {
-  display: block;
-  margin: 20px;
-}
-</style>

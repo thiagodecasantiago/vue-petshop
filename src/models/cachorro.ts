@@ -1,4 +1,5 @@
 export enum TipoServico {
+  Nenhum = "",
   Banho = "banho",
   Consulta = "consulta"
 }
@@ -9,8 +10,8 @@ type Servico = {
   finalizado: boolean;
   extra: boolean;
   data: string;
-  tipo?: TipoServico;
-  preco?: number;
+  tipo: TipoServico;
+  preco: number;
 };
 
 interface Cachorro {
@@ -35,7 +36,9 @@ class Cachorro implements Cachorro {
       observacoes: "",
       finalizado: false,
       extra: false,
-      data: ""
+      data: "",
+      preco: 0,
+      tipo: TipoServico.Nenhum
     };
   }
 }

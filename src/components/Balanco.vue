@@ -1,7 +1,7 @@
 <template>
   <div>
     <h3>Serviços do dia</h3>
-    <table>
+    <v-simple-table>
       <thead>
         <tr>
           <th>Nome</th>
@@ -23,20 +23,24 @@
       <tfoot>
         <tr>
           <td>Total</td>
-          <td colspan="5">{{ totalServicos | grana }}</td>
+          <td colspan="3"></td>
+          <td>
+            <b>{{ totalServicos | grana }}</b>
+          </td>
         </tr>
       </tfoot>
-    </table>
+    </v-simple-table>
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from "vue";
+export default Vue.extend({
   props: {
     clientes: { type: Array, default: () => [] }
   },
   computed: {
-    totalServicos() {
+    totalServicos(): number {
       if (!Array.isArray(this.clientes)) {
         return 0;
       }
@@ -46,13 +50,5 @@ export default {
       );
     }
   }
-};
+});
 </script>
-
-<style lang="scss" scoped>
-table {
-  tr {
-    justify-content: space-evenly;
-  }
-}
-</style>

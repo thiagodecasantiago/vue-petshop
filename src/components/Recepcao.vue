@@ -1,63 +1,66 @@
 <template>
-  <div>
-    <div>
-      <label class="espaco-lado">Nome do Cliente:</label>
-      <input type="text" v-model="cliente.nome" />
-    </div>
-    <div class="espaco-abaixo"></div>
-    <div>
-      <label class="espaco-lado">Raça do Cão:</label>
-      <select v-model="cliente.raca">
-        <option v-for="(raca, index) in racas" :key="index">{{
-          raca.nome
-        }}</option>
-      </select>
-    </div>
-    <div class="espaco-abaixo"></div>
-    <div>
-      <label class="espaco-lado">Idade:</label>
-      <input type="number" v-model="cliente.idade" />
-      <div class="erro" v-if="cliente.idade > 30">
-        Wow! Tem certeza que é um cachorro?
-      </div>
-    </div>
-    <div class="espaco-abaixo"></div>
-    <div>
-      <label class="espaco-lado">Serviço:</label>
-      <select v-model="cliente.servico">
-        <option
-          v-for="(servico, index) in servicos"
-          :key="index"
-          :value="servico"
-          >{{ servico.nome }} ({{ servico.preco | grana }})</option
-        >
-      </select>
-    </div>
-    <div class="espaco-abaixo"></div>
-    <div
-      class="espaco"
-      v-if="cliente.servico && cliente.servico.tipo === 'consulta'"
+  <v-form>
+    <h1>Bem vindo ao Petshop</h1>
+    <v-spacer></v-spacer>
+    <v-text-field label="Nome do Cliente" v-model="cliente.nome"></v-text-field>
+    <!-- <div class="espaco-abaixo"></div> -->
+    <v-spacer></v-spacer>
+    <v-select
+      label="Raça do Cão"
+      v-model="cliente.raca"
+      :items="racas"
+      item-text="nome"
     >
-      <label class="espaco-lado">Sintomas: </label>
-      <textarea v-model="cliente.servico.observacoes" rows="3"></textarea>
-    </div>
-    <div class="espaco-abaixo"></div>
-    <div>
-      <button @click="cadastrarCliente">Cadastrar cliente</button>
-    </div>
-  </div>
+    </v-select>
+    <v-spacer></v-spacer>
+    <v-text-field
+      label="Idade"
+      type="number"
+      v-model="cliente.idade"
+      :rules="[rules.idadeCanina]"
+    ></v-text-field>
+    <v-spacer></v-spacer>
+    <v-select label="Serviço" v-model="cliente.servico" :items="servicos">
+      <template v-slot:selection="data">
+        {{ data.item.nome }}
+      </template>
+      <template v-slot:item="data">
+        {{ data.item.nome }} ({{ data.item.preco | grana }})
+      </template>
+    </v-select>
+    <v-spacer></v-spacer>
+    <v-textarea
+      v-if="cliente.servico && cliente.servico.tipo === 'consulta'"
+      label="Sintomas"
+      v-model="cliente.servico.observacoes"
+      rows="3"
+    >
+    </v-textarea>
+    <v-spacer></v-spacer>
+    <v-btn
+      color="success"
+      v-bind:disabled="cadastroInvalido"
+      @click="cadastrarCliente"
+      >Cadastrar cliente</v-btn
+    >
+  </v-form>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from "vue";
 import axios from "axios";
-import Cachorro from "@/models/cachorro";
+import Cachorro from "../models/cachorro";
 
-export default {
+export default Vue.extend({
   data() {
     return {
       cliente: new Cachorro(),
       racas: [],
-      servicos: []
+      servicos: [],
+      rules: {
+        idadeCanina: (value: number) =>
+          value < 30 || "Tem Certeza que é um cachorro?"
+      }
     };
   },
   async created() {
@@ -69,10 +72,9 @@ export default {
     }
   },
   computed: {
-    cadastroInvalido() {
+    cadastroInvalido(): boolean {
       return (
         this.cliente.nome.length === 0 ||
-        this.cliente.idade.length === 0 ||
         this.cliente.idade <= 0 ||
         this.cliente.raca.length === 0 ||
         this.cliente.servico.tipo.length === 0
@@ -89,6 +91,8 @@ export default {
       return data;
     },
     cadastrarCliente() {
+      console.log(this.servicos);
+      console.log(this.cliente.servico);
       if (this.cadastroInvalido) {
         alert(
           "Favor preencher todas as informações corretamente no cadastro do cliente"
@@ -102,11 +106,5 @@ export default {
       this.cliente = new Cachorro();
     }
   }
-};
+});
 </script>
-
-<style lang="scss" scoped>
-.erro {
-  color: red;
-}
-</style>
