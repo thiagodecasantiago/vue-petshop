@@ -30,7 +30,7 @@
           </v-card-subtitle>
           <v-card-text class="description">{{ produto.descricao }}</v-card-text>
           <v-card-actions>
-            <v-btn block color="primary" @click="addToCart(produto)"
+            <v-btn block small color="primary" @click="addToCart(produto)"
               >Comprar</v-btn
             >
           </v-card-actions>
@@ -42,9 +42,11 @@
 
 <script lang="ts">
 import Vue from "vue";
+import CartActions from "@/components/CartActions.vue";
 import DataService from "../../services/DataService";
 
 export default Vue.extend({
+  extends: CartActions,
   data() {
     return {
       produtos: []
@@ -61,23 +63,12 @@ export default Vue.extend({
     async buscarProdutos() {
       const { data } = await DataService.getProdutos();
       return data;
-    },
-    addToCart(produto) {
-      const { nome, preco, desconto } = produto;
-      const price = desconto || preco;
-      alert(`${nome} - ${price}`);
     }
   }
 });
 </script>
 
 <style scoped>
-.price {
-  text-align: end;
-}
-.discount {
-  text-decoration: line-through;
-}
 .description {
   white-space: nowrap;
   overflow: hidden;

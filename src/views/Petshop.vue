@@ -41,7 +41,7 @@ import Veterinario from "@/components/Veterinario.vue";
 import Balanco from "@/components/Balanco.vue";
 
 export default Vue.extend({
-  name: "Home",
+  name: "PetShop",
   components: {
     Recepcao,
     Banho,

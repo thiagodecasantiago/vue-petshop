@@ -9,7 +9,7 @@ Vue.filter("grana", function(value: number | string) {
     return value;
   }
 
-  value = value.toFixed(2);
+  value = value.toFixed(2).replace(".", ",");
   return `R$ ${value}`;
 });
 
